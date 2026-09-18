@@ -1,4 +1,4 @@
-# Title
+# Evaluation of the statistical significance of clustering according to external and internal validation criteria
 
 <!-- Change `kisnikser/m1p-template` to `intsystems/your-repository`-->
 [![License](https://badgen.net/github/license/kisnikser/m1p-template?color=green)](https://github.com/kisnikser/m1p-template/blob/main/LICENSE)
@@ -26,7 +26,7 @@
 
 ## Abstract
 
-Evaluation of the statistical significance of clustering according to external and internal validation criteria
+Evaluation of the statistical significance of clustering according to external and internal validation criteria.
 
 ## Citation
 

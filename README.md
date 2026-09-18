@@ -13,7 +13,7 @@
     </tr>
     <tr>
         <td align="left"> <b> Advisor </b> </td>
-        <td> Oleg Senko, DSc </td>
+        <td> O. V. Senko, DSc </td>
     </tr>
 </table>
 
@@ -34,7 +34,7 @@ If you find our work helpful, please cite us.
 ```BibTeX
 @article{citekey,
     title={Title},
-    author={Alexander Bogdanov, Oleg Senko (advisor)},
+    author={Alexander Bogdanov, O. V. Senko (advisor)},
     year={2025}
 }
 ```

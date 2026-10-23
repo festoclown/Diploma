@@ -1,0 +1,21 @@
+---
+extends: ../base.nip
+name: pilot
+phase: pilot
+dataset:
+  kind: synthetic
+  geometry: separated
+  balance: balanced
+  n: 300
+  d: 10
+  seed: 3
+candidates:
+  k: [2, 4, 8, 16]
+  spectral_k: [4, 8, 16]
+  hdbscan_min_cluster_size: [10, 20]
+selection:
+  methods: ['M0', 'M1', 'M2', 'M3', 'M5', 'M6', 'M7']
+  budgets: [20, 50]
+  scenarios: ['random']
+  repeats: 2
+  bootstrap_draws: 20

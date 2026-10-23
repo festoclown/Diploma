@@ -1,0 +1,13 @@
+---
+extends: ../base.nip
+name: gpu_development
+phase: development
+compute:
+  backend: cuda
+dataset:
+  kind: synthetic
+  geometry: @ ['separated', 'overlapping', 'elongated']
+  balance: @ ['balanced', 'imbalanced']
+  seed: @ [0, 1, 2]
+  n: 2000
+  d: 10

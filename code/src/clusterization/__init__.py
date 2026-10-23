@@ -1,0 +1,3 @@
+"""Experiment building blocks. Importing the package performs no work."""
+
+__version__ = "0.1.0"

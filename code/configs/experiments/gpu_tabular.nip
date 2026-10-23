@@ -1,0 +1,11 @@
+---
+extends: ../base.nip
+name: gpu_tabular
+phase: confirmation
+compute:
+  backend: cuda
+dataset:
+  kind: tabular
+  name: @ ['digits', 'dry_bean']
+  max_samples: 4000
+  subsample_seed: 2026

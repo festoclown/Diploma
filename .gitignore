@@ -172,3 +172,53 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Generated research outputs
+code/data/
+code/models/
+code/artifacts/
+code/results/
+code/reports/
+code/logs/
+code/outputs/
+**/*.aux
+**/*.bbl
+**/*.blg
+**/*.out
+**/*.toc
+**/*.synctex.gz
+
+# Local experiments, downloads and archives
+/data/
+/models/
+/artifacts/
+/results/
+/reports/
+/outputs/
+/failed_runs/
+code/failed_runs/
+code/examples/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# Local configuration and caches
+.env.*
+!.env.example
+.ruff_cache/
+.mplconfig/
+.jupyter/
+
+# LaTeX and editor intermediates
+*.nav
+*.snm
+*.vrb
+*.fls
+*.fdb_latexmk
+*.xdv
+*.synctex
+*.bak
+*.swp
+*.swo
+*~

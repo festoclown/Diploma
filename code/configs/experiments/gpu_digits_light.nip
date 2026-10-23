@@ -1,0 +1,24 @@
+---
+extends: ../base.nip
+name: gpu_digits_light
+phase: pilot
+compute:
+  backend: cuda
+dataset:
+  kind: tabular
+  name: digits
+  max_samples: 600
+  subsample_seed: 2026
+candidates:
+  k: [2, 4, 8, 10, 16]
+  algorithms: ['kmeans', 'hdbscan', 'spectral']
+  n_init: 5
+  spectral_k: [4, 8, 10]
+  spectral_n_init: 3
+  hdbscan_min_cluster_size: [15, 30]
+selection:
+  methods: ['M0', 'M1', 'M2', 'M3', 'M5', 'M6', 'M7']
+  budgets: [20, 50]
+  scenarios: ['random', 'missing_classes']
+  repeats: 5
+  bootstrap_draws: 30

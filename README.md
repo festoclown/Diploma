@@ -1,44 +1,49 @@
-# Evaluation of the statistical significance of clustering according to external and internal validation criteria
+# Выбор кластерного разбиения по ограниченной внешней информации
 
-<!-- Change `kisnikser/m1p-template` to `intsystems/your-repository`-->
-[![License](https://badgen.net/github/license/kisnikser/m1p-template?color=green)](https://github.com/kisnikser/m1p-template/blob/main/LICENSE)
-[![GitHub Contributors](https://img.shields.io/github/contributors/kisnikser/m1p-template)](https://github.com/kisnikser/m1p-template/graphs/contributors)
-[![GitHub Issues](https://img.shields.io/github/issues-closed/kisnikser/m1p-template.svg?color=0088ff)](https://github.com/kisnikser/m1p-template/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-closed/kisnikser/m1p-template.svg?color=7f29d6)](https://github.com/kisnikser/m1p-template/pulls)
+![License](https://badgen.net/github/license/festoclown/Diploma?color=green)
+![GitHub Contributors](https://img.shields.io/github/contributors/festoclown/Diploma)
+![GitHub Issues](https://img.shields.io/github/issues-closed/festoclown/Diploma.svg?color=0088ff)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr-closed/festoclown/Diploma.svg?color=7f29d6)
 
-<table>
-    <tr>
-        <td align="left"> <b> Author </b> </td>
-        <td> Bogdanov Alexander </td>
-    </tr>
-    <tr>
-        <td align="left"> <b> Advisor </b> </td>
-        <td> O. V. Senko, DSc </td>
-    </tr>
-</table>
 
-## Assets
+|             |                    |
+| ----------- | ------------------ |
+| **Автор**  | Богданов Александр |
+| **Научный руководитель** | О. В. Сенько, д. ф.-м. н.   |
+
+
+
+
+## Материалы
 
 - [LinkReview](LINKREVIEW.md)
-- [Code](code)
-- [Paper](paper/main.pdf)
-- [Slides](slides/main.pdf)
+- [Код и инструкции запуска](code/README.md)
+- [Статья](paper/main.pdf) · [LaTeX](paper/main.tex)
+- [Презентация](slides/main.pdf)
 
-## Abstract
 
-Evaluation of the statistical significance of clustering according to external and internal validation criteria.
 
-## Citation
+## Аннотация
 
-If you find our work helpful, please cite us.
+Работа посвящена выбору результата кластеризации при доступности меток лишь небольшой части объектов. В этой ситуации внешний критерий чувствителен к составу размеченной выборки, а внутренний индекс описывает геометрию данных, которая может не совпадать со структурой целевых классов. Исследуется, при каких условиях внутренний индекс улучшает выбор по ограниченной разметке и когда его использование приводит к потере качества. Рассматривается фиксированный пул разбиений и правило, которое допускает альтернативы лидеру по частичному скорректированному индексу Рэнда с учётом бутстрепной изменчивости парных различий, после чего выбирает кандидата по внутреннему индексу. Для оценки такого вмешательства задаётся протокол сравнения на скрытых проверочных метках с анализом внешнего качества, потерь относительно лучшего кандидата и последствий смены выбранного разбиения. Основные исследуемые факторы — объём разметки, покрытие классов, согласованность геометрии с целевыми метками и состав пула кандидатов. Цель работы состоит в определении границ применимости совместного использования внутренних и внешних оценок, включая условия систематического ухудшения выбора.
+
+## Цитирование
+
+При использовании материалов проекта можно сослаться на репозиторий.
+
 ```BibTeX
-@article{citekey,
-    title={Title},
-    author={Alexander Bogdanov, O. V. Senko (advisor)},
-    year={2025}
+@misc{bogdanov2026clustering,
+    title={Выбор кластерного разбиения по ограниченной внешней информации},
+    author={Bogdanov, Alexander},
+    year={2026},
+    howpublished={GitHub repository},
+    url={https://github.com/festoclown/Diploma},
+    note={научный руководитель О. В. Сенько}
 }
 ```
 
-## Licence
 
-Our project is MIT licensed. See [LICENSE](LICENSE) for details.
+
+## Лицензия
+
+Проект распространяется по лицензии MIT. Подробности приведены в [LICENSE](LICENSE).

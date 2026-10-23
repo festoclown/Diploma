@@ -1,0 +1,11 @@
+---
+extends: ../base.nip
+name: synthetic
+phase: confirmation
+dataset:
+  kind: synthetic
+  geometry: @ ['separated', 'overlapping', 'elongated']
+  balance: @ ['balanced', 'imbalanced']
+  seed: @ [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
+  n: 2000
+  d: 10

@@ -2,7 +2,12 @@
 
 % \graphicspath{{figs}}  % your figures here
 
-\usepackage{cmap}
+\usepackage{fontspec}
+\setmainfont{cmunrm.otf}
+\setsansfont{cmunss.otf}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
 \usepackage{tikz}
 \usepackage{array}
 \usepackage{multicol}
@@ -20,7 +25,7 @@
 \setbeamerfont{institute}{size=\normalsize}
 \setbeamerfont{date}{size=\normalsize}
 
-\title{Title}
+\title{Выбор кластерного разбиения по ограниченной внешней информации}
 \author{
     Name Surname\\
     Consultant: Name Surname, PhD/DSc\\
@@ -39,7 +44,7 @@
     \maketitle
 \end{frame}
 
-\begin{frame}{Title or a main part of it}
+\begin{frame}{Выбор кластерного разбиения по ограниченной внешней информации}
     Couple of motivational sentences ...
     \begin{block}{Goal}
         Investigate ... 

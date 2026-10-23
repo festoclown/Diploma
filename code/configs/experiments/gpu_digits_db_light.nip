@@ -1,0 +1,5 @@
+---
+extends: gpu_digits_light.nip
+name: gpu_digits_db_light
+selection:
+  internal: davies_bouldin

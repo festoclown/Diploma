@@ -1,0 +1,12 @@
+---
+extends: ../base.nip
+name: tabular_binary
+phase: sensitivity
+dataset:
+  kind: tabular
+  name: breast_cancer
+  max_samples: 569
+  subsample_seed: 2026
+selection:
+  methods: ['M0', 'M1', 'M2', 'M3', 'M5', 'M6', 'M7']
+  budgets: [20, 50]

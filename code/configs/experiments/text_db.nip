@@ -1,0 +1,15 @@
+---
+extends: ../base.nip
+name: text_db
+phase: sensitivity
+dataset:
+  kind: text
+  name: @ ['ag_news', '20newsgroups', 'banking77']
+  max_documents: 4000
+  subsample_seed: 2026
+  source_revision: main
+candidates:
+  projection_dim: 50
+selection:
+  methods: ['M0', 'M1', 'M2', 'M5', 'M6']
+  internal: davies_bouldin

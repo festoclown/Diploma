@@ -1,0 +1,11 @@
+---
+extends: gpu_digits_light.nip
+name: gpu_breast_cancer_light
+dataset:
+  name: breast_cancer
+  max_samples: 569
+candidates:
+  k: [2, 4, 8]
+  spectral_k: [2, 4]
+selection:
+  scenarios: ['random']

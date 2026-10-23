@@ -1,0 +1,42 @@
+---
+name: base
+phase: pilot
+dataset: {}
+model:
+  repo: sentence-transformers/all-MiniLM-L6-v2
+  revision: main
+  max_length: 256
+  batch_size: 64
+  device: cpu
+compute:
+  backend: cpu
+candidates:
+  k: [2, 4, 8, 16, 32, 64, 128]
+  algorithms: ['kmeans', 'hdbscan', 'spectral']
+  n_init: 20
+  max_iter: 300
+  seed: 42
+  hdbscan_min_cluster_size: [20, 50, 100]
+  hdbscan_min_samples: 10
+  spectral_k: [4, 8, 16, 32]
+  spectral_neighbors: 15
+  spectral_n_init: 10
+  min_coverage: 0.7
+  projection_dim: 0
+selection:
+  methods: ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7']
+  budgets: [20, 50, 100, 200]
+  scenarios: ['random', 'missing_classes', 'biased']
+  repeats: 30
+  repeat_seed_start: 1000
+  bootstrap_draws: 200
+  internal: silhouette
+  fixed_window: 0.05
+  adaptive_multiplier: 1.0
+  bias_weight: 10.0
+  fallback: false
+evaluation:
+  split_seed: 31415
+  test_fraction: 0.5
+  near_optimal_delta: 0.02
+  large_loss_threshold: 0.1

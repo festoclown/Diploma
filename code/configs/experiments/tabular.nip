@@ -1,0 +1,9 @@
+---
+extends: ../base.nip
+name: tabular
+phase: confirmation
+dataset:
+  kind: tabular
+  name: @ ['digits', 'dry_bean']
+  max_samples: 4000
+  subsample_seed: 2026

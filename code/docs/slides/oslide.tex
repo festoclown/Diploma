@@ -1,0 +1,101 @@
+% One-slide talk. Self-contained LaTeX source.
+% Compile oslide.tex with XeLaTeX or Tectonic. Exactly one page, 16:9.
+\documentclass[17pt]{extarticle}
+\usepackage[paperwidth=32cm,paperheight=18cm,margin=0cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{cmunss.otf}[BoldFont=cmunsx.otf,ItalicFont=cmunsi.otf,BoldItalicFont=cmunso.otf]
+\setsansfont{cmunss.otf}[BoldFont=cmunsx.otf,ItalicFont=cmunsi.otf,BoldItalicFont=cmunso.otf]
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand{\Pari}{P_{\mathrm{ari\_max}}}
+\newcommand{\Psilh}{P_{\mathrm{silh\_max}}}
+\definecolor{ink}{HTML}{142D4E}
+\definecolor{accent}{HTML}{176C8C}
+\definecolor{muted}{HTML}{627080}
+\definecolor{grid}{HTML}{DFE5EA}
+\begin{document}
+\null
+\begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+\begin{scope}[shift={(current page.south west)}]
+\node[anchor=north west,text=ink,text width=30cm,font=\fontsize{25}{29}\selectfont\bfseries] at (1,17.15)
+ {Выбор кластерного разбиения по ограниченной внешней информации};
+\node[anchor=north west,font=\fontsize{21}{26}\selectfont,text=muted] at (1,15.65)
+ {Идея: подключать геометрию, когда оценки по меткам близки с учётом их разброса};
+
+% Horizontal axis: gain in held-out ARI; every circle is one annotation repeat.
+% Plot coordinate x = 15.0 + 48 * delta; a shared scale is used for all rows.
+\foreach \v/\label in {-0.10/{-$0{,}10$},-0.05/{-$0{,}05$},0/{$0$},0.05/{+$0{,}05$},0.10/{+$0{,}10$}} {
+ \pgfmathsetmacro{\xx}{15+48*\v}
+ \draw[grid,line width=0.6pt] (\xx,6.45)--(\xx,12.9);
+ \node[anchor=north,font=\fontsize{17}{20}\selectfont,text=muted] at (\xx,6.25) {\label};
+}
+\draw[muted,dashed,line width=1pt] (15,6.45)--(15,12.9);
+\node[anchor=east,align=right,text width=6.7cm,font=\fontsize{18}{22}\selectfont] at (7.95,12.0)
+ {Случайно, 20 меток};
+\node[anchor=east,align=right,text width=6.7cm,font=\fontsize{18}{22}\selectfont] at (7.95,10.4)
+ {Случайно, 50 меток};
+\node[anchor=east,align=right,text width=6.7cm,font=\fontsize{18}{22}\selectfont] at (7.95,8.8)
+ {5 классов, 20 меток};
+\node[anchor=east,align=right,text width=6.7cm,font=\fontsize{18}{22}\selectfont] at (7.95,7.2)
+ {5 классов, 50 меток};
+\fill[muted!65] (15.000000,11.760000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,11.880000) circle[radius=0.068cm];
+\fill[muted!65] (19.582444,12.000000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,12.120000) circle[radius=0.068cm];
+\fill[muted!65] (17.666402,12.240000) circle[radius=0.068cm];
+\fill[accent] (16.449769,12.130000)--(16.579769,12.000000)--(16.449769,11.870000)--(16.319769,12.000000)--cycle;
+\node[anchor=south west,text=accent,font=\fontsize{17}{20}\selectfont\bfseries] at (16.579769,12.150000) {$ +0{,}030 $};
+\fill[muted!65] (15.000000,10.160000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,10.280000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,10.400000) circle[radius=0.068cm];
+\fill[muted!65] (14.017889,10.520000) circle[radius=0.068cm];
+\fill[muted!65] (14.017889,10.640000) circle[radius=0.068cm];
+\fill[accent] (14.607156,10.530000)--(14.737156,10.400000)--(14.607156,10.270000)--(14.477156,10.400000)--cycle;
+\node[anchor=south west,text=accent,font=\fontsize{17}{20}\selectfont\bfseries] at (14.737156,10.550000) {$ -0{,}008 $};
+\fill[muted!65] (15.000000,8.560000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,8.680000) circle[radius=0.068cm];
+\fill[muted!65] (17.666402,8.800000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,8.920000) circle[radius=0.068cm];
+\fill[muted!65] (9.435445,9.040000) circle[radius=0.068cm];
+\fill[accent] (14.420369,8.930000)--(14.550369,8.800000)--(14.420369,8.670000)--(14.290369,8.800000)--cycle;
+\node[anchor=south west,text=accent,font=\fontsize{17}{20}\selectfont\bfseries] at (14.550369,8.950000) {$ -0{,}012 $};
+\fill[muted!65] (15.000000,6.960000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,7.080000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,7.200000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,7.320000) circle[radius=0.068cm];
+\fill[muted!65] (15.000000,7.440000) circle[radius=0.068cm];
+\fill[accent] (15.000000,7.330000)--(15.130000,7.200000)--(15.000000,7.070000)--(14.870000,7.200000)--cycle;
+\node[anchor=south west,text=accent,font=\fontsize{17}{20}\selectfont\bfseries] at (15.130000,7.350000) {$ +0{,}000 $};
+\node[anchor=north,font=\fontsize{19}{23}\selectfont,text=ink] at (15,5.35)
+ {$\Delta\mathrm{ARI}=\mathrm{ARI}_{\rm test}(\Psilh)-\mathrm{ARI}_{\rm test}(\Pari)$};
+\node[anchor=north,font=\fontsize{16}{19}\selectfont,text=muted] at (15,4.5)
+ {левее нуля --- хуже; правее --- лучше};
+
+\node[anchor=north west,text=ink,font=\fontsize{22}{26}\selectfont\bfseries] at (23.6,12.8)
+ {Разбиения};
+\node[anchor=north west,text width=7.3cm,align=left,font=\fontsize{18}{22}\selectfont,text=ink] at (23.6,11.45)
+ {$\Pari$: максимум ARI на доступных метках.};
+\node[anchor=north west,text width=7.3cm,align=left,font=\fontsize{18}{22}\selectfont,text=ink] at (23.6,9.2)
+ {$\Psilh$: максимум silhouette среди близких по ARI вариантов.\par\vspace{0.3cm}
+ Допуск --- по бутстрепному разбросу разности ARI.};
+\node[anchor=north west,text width=14cm,align=left,font=\fontsize{14}{17}\selectfont,text=muted] at (8.4,13.9)
+ {Круг --- повтор; ромб --- среднее.};
+
+\node[anchor=west,font=\fontsize{23}{28}\selectfont\bfseries,text=accent] at (1,3.12)
+ {20 случайных меток: $+0{,}030$ ARI};
+\node[anchor=west,font=\fontsize{21}{25}\selectfont,text=ink] at (18.6,3.12)
+ {При 50 метках: $-0{,}008$};
+\node[anchor=west,font=\fontsize{20}{24}\selectfont,text=ink] at (1,2.15)
+ {Вопрос работы: когда геометрия помогает и как это зависит от покрытия классов?};
+\node[anchor=south west,text width=30cm,font=\fontsize{15}{18}\selectfont,text=muted] at (1,0.52)
+ {Пилот Digits: 600 объектов, 10 классов, 8 готовых разбиений; ARI на 300 скрытых проверочных метках.\\
+ 5 повторений разметки на условие, 30 бутстрепов.};
+\end{scope}
+\end{tikzpicture}
+\end{document}

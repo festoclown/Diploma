@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clusterization-research"
+version = "0.1.0"
+description = "Selection of clusterings under limited annotation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "nip-config==0.12.4",
+  "numpy>=1.26,<3", "scipy>=1.12,<2", "scikit-learn>=1.5,<2",
+  "pandas>=2.2,<3", "matplotlib>=3.8,<4", "tqdm>=4.66,<5",
+]
+
+[project.optional-dependencies]
+text = ["sentence-transformers>=3,<6", "datasets>=3,<5", "huggingface-hub>=0.26,<2"]
+dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

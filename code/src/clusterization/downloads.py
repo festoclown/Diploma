@@ -94,7 +94,7 @@ def download_data(root: Path, spec: dict) -> Path | None:
                        if name.endswith("Dry_Bean_Dataset.arff")]
             if len(matches) != 1:
                 raise ValueError("Unexpected Dry Bean archive layout")
-            table, _ = arff.loadarff(io.BytesIO(archive.read(matches[0])))
+            table, _ = arff.loadarff(io.StringIO(archive.read(matches[0]).decode("utf-8-sig")))
         columns = [name for name in table.dtype.names if name != "Class"]
         if len(columns) != 16:
             raise ValueError("Expected 16 Dry Bean numeric features")

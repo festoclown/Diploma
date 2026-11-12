@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import numpy as np
@@ -33,8 +32,6 @@ def encode(root: Path, c: dict) -> Path:
         return path
     # Encoding must use the explicit snapshot downloaded in a separate stage;
     # it must not silently fetch a changed model during an experiment.
-    os.environ["HF_HUB_OFFLINE"] = "1"
-    os.environ["TRANSFORMERS_OFFLINE"] = "1"
     from sentence_transformers import SentenceTransformer
 
     model = SentenceTransformer(str(local / "snapshot"), device=spec["device"],

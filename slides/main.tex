@@ -1,123 +1,292 @@
-\documentclass[aspectratio=169]{beamer}
-
-% \graphicspath{{figs}}  % your figures here
-
+% Compile from slides/ with tectonic main.tex.
+% Speaker notes are stored with each frame and hidden in the ordinary PDF.
+\documentclass[11pt,aspectratio=169]{beamer}
 \usepackage{fontspec}
-\setmainfont{cmunrm.otf}
-\setsansfont{cmunss.otf}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf]
+\setsansfont{cmunss.otf}[BoldFont=cmunsx.otf,ItalicFont=cmunsi.otf]
 \usepackage{polyglossia}
 \setdefaultlanguage{russian}
 \setotherlanguage{english}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{multicol}
-\usepackage{booktabs}
-\usepackage{csquotes}
-\usepackage{amssymb,amsfonts,amsmath}
-
-\usecolortheme{beaver}
-\usefonttheme[onlymath]{serif}  % math fonts as in article
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usetheme{default}
+\usefonttheme{serif}
+\definecolor{ink}{RGB}{0,0,0}
+\definecolor{accent}{RGB}{0,65,145}
+\definecolor{warm}{RGB}{190,90,20}
+\definecolor{muted}{gray}{0.35}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{frametitle}{fg=accent,bg=white}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{alerted text}{fg=accent}
+\setbeamercolor{author in head/foot}{fg=accent,bg=white}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[page number]
-\setbeamertemplate{blocks}[rounded=true,shadow=true]
-\setbeamersize{text margin left=0.5cm,text margin right=0.5cm}
-\setbeamerfont{author}{size=\normalsize}
-\setbeamerfont{institute}{size=\normalsize}
-\setbeamerfont{date}{size=\normalsize}
-
-\title{Выбор кластерного разбиения по ограниченной внешней информации}
-\author{
-    Name Surname\\
-    Consultant: Name Surname, PhD/DSc\\
-    Expert: Name Surname, PhD/DSc
-}
-\institute{
-    Course: My first scientific paper\\
-    Intelligent Systems Department, MIPT
-}
-\date{Date}
-
+\setbeamertemplate{headline}{\vbox{\vskip0.06cm\hbox{\color{accent}\rule{\paperwidth}{0.8pt}}\vskip0.10cm}}
+\setbeamertemplate{footline}{%
+  \color{accent}\hrule height0.8pt
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1.1ex,leftskip=0.5cm,rightskip=0.5cm]{author in head/foot}
+    \small А. Д. Богданов, О. В. Сенько\hfill\insertframenumber\,/\,\inserttotalframenumber
+  \end{beamercolorbox}}
+\setbeamersize{text margin left=0.75cm,text margin right=0.75cm}
+\setbeamertemplate{itemize item}{\color{accent}\small\textbullet}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\newcommand{\Pari}{P_{\mathrm{ari\_max}}}
+\newcommand{\Psilh}{P_{\mathrm{silh\_max}}}
+\newcommand{\ARI}{\operatorname{ARI}}
+\newcommand{\sd}{\operatorname{sd}}
+\newcommand{\source}[1]{\par\medskip{\fontsize{9}{11}\selectfont\color{muted}#1\par}}
+\pgfplotsset{talk/.style={font=\small,scaled ticks=false,xticklabel={\pgfmathprintnumber[fixed,precision=3,use comma]{\tick}},axis line style={gray!65},tick style={gray!65},
+ grid=both,major grid style={gray!28,dotted},minor grid style={gray!15,dotted},
+ tick label style={font=\small},label style={font=\small},
+ /pgf/number format/use comma}}
+\hypersetup{pdftitle={Выбор кластерного разбиения по ограниченной внешней информации},pdfauthor={А. Д. Богданов, О. В. Сенько}}
+\newcommand{\stagevalue}[2]{%
+  \pgfplotstablegetelem{#1}{#2}\of\stagetable
+  \pgfmathprintnumber[fixed,precision=4,fixed zerofill,use comma]{\pgfplotsretval}}
 \begin{document}
 
 \begin{frame}
-    \thispagestyle{empty}
-    \maketitle
+\vspace{0.3cm}
+{\fontsize{25}{30}\selectfont\bfseries Выбор кластерного разбиения\par по ограниченной внешней информации\par}
+\vspace{0.8cm}
+А. Д. Богданов \quad О. В. Сенько\par
+\smallskip
+{\color{muted}МГУ имени М. В. Ломоносова}\par
+\vspace{0.8cm}
+{\color{accent}\bfseries Цель исследования}\par\smallskip
+Выяснить, когда геометрия данных помогает выбрать разбиение\par
+по небольшому числу известных меток и где возникает потеря качества.
+\note{В работе уже есть готовые варианты кластеризации. Требуется выбрать один из них, зная классы только небольшой части объектов. Я исследую, помогает ли подключение внутреннего геометрического индекса и как объяснить ошибки такого выбора.}
 \end{frame}
 
-\begin{frame}{Выбор кластерного разбиения по ограниченной внешней информации}
-    Couple of motivational sentences ...
-    \begin{block}{Goal}
-        Investigate ... 
-    \end{block}
-    \begin{block}{Problem}
-        Put the brief idea here ...
-    \end{block}
-    \begin{block}{Solution}
-        Your results appears twice, as a promise here and as a contribution later ...
-        \begin{enumerate}[1)]
-            \item Set ...
-            \item Put ...
-            \item Get ...
-        \end{enumerate}
-    \end{block}
+\begin{frame}{Главная идея работы}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.41\textwidth}\raggedright
+\textbf{Метки}\par
+$\Pari$ --- максимум ARI по меткам.
+\par\medskip
+\textbf{Бутстреп}\par
+Разброс разности задаёт допуск.
+\par\medskip
+\textbf{Геометрия}\par
+Максимум silhouette в допуске\par
+даёт $\Psilh$.
+\end{column}
+\begin{column}{0.56\textwidth}
+\begin{tikzpicture}
+\begin{axis}[talk,width=7.5cm,height=4.0cm,xmin=-0.12,xmax=0.075,ymin=0.5,ymax=2.5,
+ ytick={1,2},yticklabels={Dry Bean,Digits},xtick={-0.1,-0.05,0,0.05},
+ xlabel={Выигрыш проверочного ARI},axis y line*=left,axis x line*=bottom]
+\addplot[gray,dashed] coordinates {(0,0.5)(0,2.5)};
+\addplot[only marks,mark=diamond*,mark size=3pt,accent,thick,
+ error bars/.cd,x dir=both,x explicit]
+ table[col sep=comma,row sep=crcr,x=gain,y=y,x error minus=minus,x error plus=plus] {
+y,gain,minus,plus\\
+1,-0.0703241466845225,0.0359512013552144,0.034374130504455196\\
+2,0.0273451077798261,0.0224583721701637,0.026123423877410498\\
+};
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\smallskip
+Средний выигрыш\quad Digits $+0{,}0273$, Dry Bean $-0{,}0703$ ARI.
+\source{20 меток, 20 раскрытий, фиксированный набор разбиений. Выигрыш на скрытых объектах относительно $\Pari$. Отрезки --- условные 95\%-интервалы среднего.}
+
+\note{ARI у внешнего лидера максимален только на известных метках. На скрытой части другая кластеризация может оказаться лучше. Мы разрешаем геометрии выбирать среди близких альтернатив. В основной серии это помогает на Digits и вредит на Dry Bean. Оба результата относятся к фиксированным данным и кандидатам. Поэтому задача работы состоит в диагностике условий и ошибок.}
 \end{frame}
 
-\begin{frame}{One-slide talk}
-    What the audience sees on the figure.
-    \begin{columns}
-    \begin{column}{0.5\textwidth}
-        \begin{enumerate}[1)]
-            \item Notation
-            \item Subjects
-        \end{enumerate}
-    \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{figure}[h]
-                \centering
-                \includegraphics[width=0.8\textwidth]{example-image}
-                \caption{Caption}
-            \end{figure}    
-        \end{column}
-    \end{columns}
-    What are the consequences?
+\begin{frame}{Литературные основания}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{9.1cm}@{}}
+\toprule
+Работа & Связь с нашей задачей\\
+\midrule
+Van Craenendonck, Blockeel\newline COBS, 2017 & Внешние ограничения направляют выбор среди заранее построенных кластеризаций.\\
+Castro Gertrudes и др., 2019 & Сочетание структурной устойчивости и внешней информации при извлечении кластеров из иерархии.\\
+Simpson и др., 2026 & Поведение внутренних индексов зависит от характеристик задачи. Сравнение лучших решений дополняет ранговые оценки.\\
+Efron, 2014 & Статистическая точность после выбора модели требует учёта самого отбора.\\
+\bottomrule
+\end{tabular}
+\source{\href{https://doi.org/10.1007/s10994-017-5643-7}{COBS}\quad
+\href{https://doi.org/10.1007/s10618-019-00651-1}{Castro Gertrudes и др.}\quad
+\href{https://doi.org/10.1002/sam.70061}{Simpson и др.}\quad
+\href{https://doi.org/10.1080/01621459.2013.823775}{Efron}}
+\note{Выбор разбиений по внешней информации и объединение источников качества уже имеют предшественников. Наш предмет более узкий: бутстрепный допуск относительно внешнего лидера и разбор того, на каком этапе возникает потеря. Работа Efron мотивирует осторожность при статистической интерпретации допуска после отбора лидера.}
 \end{frame}
 
-\begin{frame}{Problem statement}
-    Given a dataset $\mathfrak{D} = \left\{ (\mathbf{x}_i, y_i) \right\}_{i=1}^{N}$ ...
+\begin{frame}{Постановка задачи и критерии качества}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}\raggedright
+\textbf{Дано}\par\smallskip
+$X$ --- признаки всех объектов.\par
+$\mathcal P$ --- готовые разбиения.\par
+$L$ --- объекты с открытыми метками.\par
+$T$ --- проверочная часть.
+\end{column}
+\begin{column}{0.48\textwidth}\raggedright
+\textbf{Оценки}\par\smallskip
+$A_L(P)=\ARI(y_L,P_L)$\par
+для выбора.
+\par\medskip
+$Q(P)=\ARI(y_T,P_T)$\par
+для проверки.
+\par\medskip
+$I(P)$ --- silhouette.
+\end{column}
+\end{columns}
+\medskip
+\textbf{Гипотеза}\quad Польза геометрии зависит от целевых классов и состава допуска.
+\source{Большие ARI и silhouette предпочтительны. Проверочные метки раскрываются после выбора.}
+
+\note{Кластеризация строится по признакам без меток. Ограниченная внешняя информация появляется на этапе выбора готового разбиения. Проверочные метки скрыты от всех правил до фиксации решения. Silhouette измеряет компактность и разделённость групп в выбранном пространстве, а классы могут задавать другую целевую группировку.}
 \end{frame}
 
-\begin{frame}{Solution}
-    We propose ...
+\begin{frame}{Правило с адаптивным допуском}
+\begin{enumerate}
+\item Внешний лидер и отставание кандидата
+\[
+\Pari=\arg\max_{P\in\mathcal P} A_L(P),\qquad d_P=A_L(\Pari)-A_L(P).
+\]
+\item На общих перевыборках $L^{(b)}$ с возвращением оцениваем
+\[
+\widehat\sigma_P=\sd_{b=1}^{B}\!\left[A_{L^{(b)}}(\Pari)-A_{L^{(b)}}(P)\right].
+\]
+\item Допускаем близкие альтернативы и выбираем по геометрии
+\[
+\mathcal E_c=\{P:d_P\le c\widehat\sigma_P+\varepsilon\},\qquad
+\Psilh=\arg\max_{P\in\mathcal E_c}I(P).
+\]
+\end{enumerate}
+\source{$B=100$, $c=1$, $\varepsilon=10^{-12}$. Лидер фиксируется до перевыборок. SD задаёт эвристический масштаб допуска. Равенства разрешаются по фиксированному порядку ID.}
+\note{В каждой перевыборке оба кандидата оцениваются на одних и тех же объектах. Это сохраняет зависимость их оценок. Мы фиксируем исходного лидера, а затем сравниваем с ним все альтернативы. Разбиения заново не строятся. Правило использует одно стандартное отклонение разности как эвристический масштаб.}
 \end{frame}
 
-\begin{frame}{Experiments}
-    We consider a MNIST dataset ...
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{figure}[h]
-                \centering
-                \includegraphics[width=0.7\textwidth]{example-image-a}
-                \caption{Caption A}
-            \end{figure}    
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{figure}[h]
-                \centering
-                \includegraphics[width=0.7\textwidth]{example-image-b}
-                \caption{Caption B}
-            \end{figure}    
-        \end{column}
-    \end{columns}
-    Results show ...
+\begin{frame}{С чем сравниваем правило}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.5cm}>{\raggedright\arraybackslash}p{8.6cm}@{}}
+\toprule
+Правило & Как выбирается разбиение\\
+\midrule
+Геометрический максимум & Максимум silhouette во всём наборе разбиений.\\
+Внешний лидер $\Pari$ & Максимум ARI на открытых метках.\\
+Разрешение равенств & Silhouette среди кандидатов с равным максимальным ARI.\\
+Фиксированный допуск & Silhouette при отставании не более $0{,}05$ ARI.\\
+Адаптивный допуск $\Psilh$ & Silhouette при отставании не более одной парной SD.\\
+Бутстрепные победы & Максимальная средняя доля побед на перевыборках.\\
+\bottomrule
+\end{tabular}
+\source{В статье этим правилам соответствуют M0, M1, M2, M5, M6, M7. Правила сравниваются на общих раскрытиях меток. Адаптивный допуск и бутстрепные победы используют общую матрицу перевыборок.}
+\note{Нужны оба отдельных источника оценки и простые варианты их сочетания. Геометрический максимум показывает ценность внешнего ограничения. Выбор по бутстрепным победам показывает, добавляет ли геометрия пользу сверх использования перевыборок. Фиксированный допуск помогает оценить зависимость результата от ширины окна.}
 \end{frame}
 
-\begin{frame}{Conclusion}
-    \begin{enumerate}[1)]
-        \item We consider a problem ...
-        \item We propose ...
-        \item Experiments show ...
-        \item Our method outperforms ...
-    \end{enumerate}
+\begin{frame}{Два источника потери качества}
+Пусть $Q^\star$ --- лучшее проверочное качество во всём наборе разбиений,\par
+$Q_E^\star$ --- лучшее качество среди допущенных кандидатов.
+\medskip
+\[
+\underbrace{Q^\star-Q(\Psilh)}_{\text{полная потеря}}
+=
+\underbrace{Q^\star-Q_E^\star}_{\text{потеря исключения}}
++
+\underbrace{Q_E^\star-Q(\Psilh)}_{\text{потеря внутри допуска}}.
+\]
+\medskip
+\begin{itemize}
+\item Обе составляющие неотрицательны.
+\item Расширение допуска уменьшает потерю исключения.
+\item Внутренний индекс определяет потерю внутри допуска.
+\end{itemize}
+\source{Вклад работы --- раздельная диагностика допуска и геометрического выбора по скрытым меткам.}
+\note{Если лучший кандидат исключён, ошибка возникла до применения silhouette. Если он допущен, но выбран другой кандидат, ошибка возникла при геометрическом выборе. Это точное тождество для фиксированного набора разбиений. Оно применимо к разным правилам выбора внутри допустимого множества и позволяет сравнивать механизмы ошибок по задачам.}
 \end{frame}
 
-\end{document} 
+\begin{frame}{Конфигурация экспериментов}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}\raggedright
+\textbf{Данные}\par\smallskip
+Breast Cancer, Dry Bean, Digits.\par
+AG News, 20 Newsgroups, Banking77.
+\par\medskip
+До 600 объектов на набор.\par
+Числовые признаки стандартизированы.\par
+Тексты представлены MiniLM\newline и 50 компонентами PCA.
+\end{column}
+\begin{column}{0.48\textwidth}\raggedright
+\textbf{Условия}\par\smallskip
+KMeans с $k=2,4,8,16$.\par
+Спектральные разбиения с $k=4,8$.\par
+По 6 кандидатов на набор.
+\par\medskip
+Около половины объектов --- проверка.\par
+20 или 50 меток, 20 раскрытий.\par
+100 бутстрепных перевыборок.
+\end{column}
+\end{columns}
+\source{240 условий разметки. Парное сравнение правил при фиксированных данных и наборе разбиений.}
+\note{Объём серии выбран небольшим. На каждом наборе фиксируются подвыборка, набор разбиений и проверочная часть. Меняется только раскрытая разметка. Бюджеты вложены в пределах повтора. Для числовых данных выполнена стандартизация, для текстов silhouette считается в том же пространстве PCA, что и кластеризация. Все эксперименты основной серии выполнены на CPU.}
+\end{frame}
+
+\begin{frame}{На каком этапе теряется качество?}
+\small
+Проверочный ARI: чем больше, тем лучше. Все значения --- средние.
+\medskip
+\centering
+\pgfplotstableread[col sep=comma,row sep=crcr]{
+row,best_all,best_allowed,selected,excluded,inside\\
+0,0.5772569785112043,0.5735919268039574,0.5735919268039574,0.0036650517072467997,0.0\\
+1,0.6405847194627347,0.6357072433919767,0.5531249711654559,0.0048774760707579,0.08258227222652068\\
+2,0.6663187184355567,0.646105474917345,0.624733426128601,0.02021324351821168,0.021372048788743925\\
+}\stagetable
+\begin{tikzpicture}[x=1cm,y=0.88cm]
+\node[align=center,text width=3.1cm] at (3,0.65) {\textbf{Лучший из всех}\\кандидатов};
+\node[align=center,text width=3.1cm] at (7.3,0.65) {\textbf{Лучший после}\\отсева по меткам};
+\node[align=center,text width=3.1cm] at (11.6,0.65) {\textbf{Выбранный}\\по silhouette};
+\foreach \dataset/\row/\yy in {Digits/0/-0.4,Dry Bean/1/-1.55,AG News/2/-2.7} {
+  \node[anchor=west,font=\normalsize] at (0,\yy) {\dataset};
+  \node[draw=gray!45,minimum width=1.8cm,minimum height=0.58cm,font=\large] at (3,\yy) {\stagevalue{\row}{best_all}};
+  \node[draw=gray!45,minimum width=1.8cm,minimum height=0.58cm,font=\large] at (7.3,\yy) {\stagevalue{\row}{best_allowed}};
+  \node[draw=gray!45,minimum width=1.8cm,minimum height=0.58cm,font=\large] at (11.6,\yy) {\stagevalue{\row}{selected}};
+  \draw[->,accent,very thick] (4,\yy) -- node[midway,above=3pt,font=\small] {\stagevalue{\row}{excluded}} (6.3,\yy);
+  \draw[->,warm,very thick] (8.3,\yy) -- node[midway,above=3pt,font=\small] {\stagevalue{\row}{inside}} (10.6,\yy);
+}
+\node[accent,align=center,text width=3.5cm,font=\small] at (5.15,-3.5) {Потеря при отсеве\\по известным меткам};
+\node[warm,align=center,text width=3.5cm,font=\small] at (9.45,-3.5) {Потеря при выборе\\по silhouette};
+\end{tikzpicture}
+\par\medskip\raggedright
+\textbf{Dry Bean: 94\% потери возникает на последнем шаге.}\\
+Хорошие кандидаты проходят допуск, но silhouette предпочитает другие.
+\source{20 меток, 20 раскрытий. ARI вычислен по скрытым меткам после выбора. Над стрелками --- средняя потеря.}
+\note{Первый столбец показывает лучшее проверочное качество среди всех шести разбиений. Второй показывает лучшее из оставшихся после допуска, третий --- качество выбранного по silhouette. Синие стрелки измеряют потерю при отборе по известным меткам, оранжевые --- при окончательном выборе. На Digits качество снижается с 0,5773 до 0,5736 при отборе и дальше сохраняется. На Dry Bean после допуска остаётся качество 0,6357, но silhouette выбирает в среднем 0,5531. Поэтому примерно 94 процента потери связано с последним этапом. На AG News качество снижается на обоих этапах. Все значения усреднены по двадцати раскрытиям, проверочные метки доступны только при последующем анализе.}
+\end{frame}
+
+\begin{frame}{Итоги исследования}
+
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{5cm}>{\raggedright\arraybackslash}p{3.8cm}@{}}
+\toprule
+Модель & Данные & Критерии\\
+\midrule
+KMeans, Spectral & Breast Cancer, Dry Bean, Digits & ARI, silhouette\\
+MiniLM, PCA и те же алгоритмы & AG News, 20 Newsgroups, Banking77 & ARI, silhouette\\
+\bottomrule
+\end{tabular}
+\medskip
+\begin{itemize}
+\item На Breast Cancer, Digits, 20 Newsgroups и Banking77 разбиение с наибольшим silhouette среди всех шести кандидатов имело также наибольший ARI на скрытой проверочной части.
+\item На AG News и Dry Bean полезно внешнее ограничение.
+\item На Dry Bean внешний лидер и бутстрепные победы лучше адаптивного правила.
+\end{itemize}
+\source{Совпадение максимумов установлено после раскрытия проверочных меток. Выводы относятся к исследованным данным и фиксированному составу кандидатов.}
+
+\note{Результат исследования состоит в выделении двух режимов и разных источников потери. Положительный эффект относительно внешнего лидера сам по себе не означает превосходство над обоими отдельными источниками. Диагностика помогает понять, следует ли исследовать изменение допуска или замену внутреннего критерия. Для общих рекомендаций необходимы новые независимые задачи.}
+\end{frame}
+\end{document}

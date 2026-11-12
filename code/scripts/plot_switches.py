@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+plt.rcParams.update({"axes.grid": True, "axes.axisbelow": True, "grid.alpha": 0.35})
 p = argparse.ArgumentParser()
 p.add_argument("--report", required=True)
 a = p.parse_args()

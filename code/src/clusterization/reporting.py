@@ -92,6 +92,7 @@ def summarize(source: Path, target: Path) -> None:
     import matplotlib
     matplotlib.use("Agg")
     from matplotlib import pyplot as plt
+    plt.rcParams.update({"axes.grid": True, "axes.axisbelow": True, "grid.alpha": 0.35})
 
     for values, sub in summary.groupby(["series", "kind", "cell", "scenario"]):
         fig, ax = plt.subplots(figsize=(7, 4))

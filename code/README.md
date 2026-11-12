@@ -10,31 +10,31 @@ source .venv/bin/activate
 python -m pip install '.[dev]'
 ```
 
-Для текстов установите `'.[text,dev]'`. GPU-конфиги требуют совместимых CuPy и cuML в CUDA-окружении.
-
-## Эксперимент
+## Воспроизведение на CPU
 
 ```bash
-CONFIG=configs/experiments/pilot.nip
-python scripts/show_config.py --config "$CONFIG"
-python scripts/prepare_data.py --config "$CONFIG"
-python scripts/build_candidates.py --config "$CONFIG"
-python scripts/run_experiment.py --config "$CONFIG"
-python scripts/summarize_results.py --results results/pilot --out reports/pilot_first
+python scripts/run_paper_experiments.py --out reports/paper_check
 ```
 
-Для другого опыта замените CONFIG и имя каталога `results`. Каталог отчёта должен быть новым. Лёгкие GPU-конфиги: `gpu_pilot`, `gpu_digits_light`, `gpu_digits_db_light`, `gpu_breast_cancer_light`. Для серий с M4 предварительно выполните `prepare_data.py`, `build_candidates.py` и `tune_mixture.py` на соответствующем CPU/GPU development-конфиге.
+Входные массивы включены в `fixtures/paper_inputs.zip` (около 3 МБ). Загрузка корпусов и моделей не требуется. Команда пересчитывает основную серию и дополнительные проверки, сверяет исходные решения, строит таблицы и графики. Результаты сохраняются в указанной папке. Описание этапов: [карта экспериментов](docs/README.md).
 
-Dry Bean требует `download_data.py`. Тексты требуют загрузки данных и модели, затем `encode_texts.py`. Полная последовательность: [quickstart](docs/quickstart.md).
+[Лёгкий ноутбук](notebooks/light_experiments.ipynb) позволяет запускать проверки отдельно. Для новых исходных данных используйте [инструкцию запуска](docs/README.md), для текстов установите `'.[text,dev]'`. GPU-вариант требует совместимых CuPy и cuML.
 
-## Ноутбук и диагностика
+## Обновление рисунков и слайдов
 
-[Ноутбук экспериментов](notebooks/research_experiments_colab.ipynb) содержит постановку, запуск и графики.
+После CPU-запуска:
 
 ```bash
-python scripts/analyze_switches.py --results results --out reports/switching_first
-python scripts/plot_switches.py --report reports/switching_first
-python -m pytest -q
+python scripts/build_experiment_figures.py \
+  --results reports/paper_check/main \
+  --diagnostics reports/paper_check/diagnostics \
+  --refinement reports/paper_check/refinement \
+  --out ../paper/figures
+
+cd ../slides
+tectonic main.tex
+cd ../paper
+tectonic main.tex
 ```
 
-Решения сохраняются в `results/`, CSV и PNG — в `reports/`. Больший проверочный ARI и меньшая потеря regret предпочтительны. Повторы разметки одного набора не заменяют независимые задачи. Определения: [протокол](docs/protocol.md). Параметры: [конфиги](docs/configs.md).
+Для сборки LaTeX нужен Tectonic. Проверка программного пакета: `python -m pytest -q` из `code/`. Данные, модели, результаты и журналы запусков исключены из Git. Методика: [протокол](docs/README.md).

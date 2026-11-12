@@ -222,3 +222,26 @@ code/examples/
 *.swp
 *.swo
 *~
+
+# Compact frozen inputs required by the paper reproduction entry point
+!code/fixtures/paper_inputs.zip
+
+# Local plans, review responses and historical verification notes
+code/docs/review_*.md
+code/docs/domain_experiment_plan.md
+code/docs/experiment_verification.md
+code/docs/REPRODUCIBILITY.md
+
+# Figures and fragments no longer used by the current paper or slides
+paper/figures/bootstrap_disagreements.pdf
+paper/figures/coverage_variability.pdf
+paper/figures/pilot_losses.pdf
+paper/sections/noise_appendix.tex
+slides/data/losses.csv
+
+# Publication layout
+/slides/*
+!/slides/main.tex
+!/slides/main.pdf
+/code/docs/*
+!/code/docs/README.md

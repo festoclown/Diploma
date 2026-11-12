@@ -11,7 +11,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{amsthm}
 \newtheorem{proposition}{Утверждение}[section]
-\usepackage{booktabs,tabularx,array}
+\usepackage{booktabs,tabularx,array,longtable}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{xcolor}
@@ -20,6 +20,7 @@
 \hypersetup{unicode=true,colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \urlstyle{same}
 \makeatletter
+\newenvironment{exampletable}{\par\medskip\noindent\begin{minipage}{\linewidth}\centering\def\@captype{table}}{\end{minipage}\par\medskip}
 \renewcommand{\@noticestring}{}
 \makeatother
 \renewenvironment{abstract}{\vskip0.075in\centerline{\large\bfseries Аннотация}\vspace{0.5ex}\begin{quote}}{\par\end{quote}\vskip1ex}
@@ -36,11 +37,15 @@
 \begin{abstract}
 \input{sections/abstract}
 \end{abstract}
-\noindent\textbf{Ключевые слова:} кластеризация, внутренняя и внешняя валидация, ограниченная разметка, бутстреп, выбор разбиения, покрытие классов.
+\noindent\textbf{Ключевые слова:} кластеризация, внутренняя и внешняя оценка качества, ограниченная разметка, бутстреп, выбор разбиения, покрытие классов.
 \input{sections/introduction}
 \input{sections/related_work}
 \input{sections/problem}
 \input{sections/theory}
+\input{sections/experiments}
+\input{sections/conclusion}
 \bibliographystyle{unsrtnat}
 \bibliography{references}
+\clearpage\appendix
+\input{sections/diagnostics_appendix}
 \end{document}

@@ -11,6 +11,7 @@
 \usepackage{pgfplots,pgfplotstable}
 \pgfplotsset{compat=1.18}
 \usetheme{default}
+\usecolortheme{dolphin}
 \usefonttheme{serif}
 \definecolor{ink}{RGB}{0,0,0}
 \definecolor{accent}{RGB}{0,65,145}
@@ -21,7 +22,7 @@
 \setbeamercolor{structure}{fg=accent}
 \setbeamercolor{alerted text}{fg=accent}
 \setbeamercolor{author in head/foot}{fg=accent,bg=white}
-\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamerfont{frametitle}{size=\Large,series=\mdseries}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{headline}{\vbox{\vskip0.06cm\hbox{\color{accent}\rule{\paperwidth}{0.8pt}}\vskip0.10cm}}
 \setbeamertemplate{footline}{%
@@ -30,7 +31,10 @@
     \small А. Д. Богданов, О. В. Сенько\hfill\insertframenumber\,/\,\inserttotalframenumber
   \end{beamercolorbox}}
 \setbeamersize{text margin left=0.75cm,text margin right=0.75cm}
-\setbeamertemplate{itemize item}{\color{accent}\small\textbullet}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{blocks}[default]
+\setbeamercolor{block title}{fg=accent,bg=accent!10}
+\setbeamercolor{block body}{fg=black,bg=accent!3}
 \setbeamerfont{itemize/enumerate body}{size=\normalsize}
 \newcommand{\Pari}{P_{\mathrm{ari\_max}}}
 \newcommand{\Psilh}{P_{\mathrm{silh\_max}}}
@@ -49,15 +53,18 @@
 
 \begin{frame}
 \vspace{0.3cm}
-{\fontsize{25}{30}\selectfont\bfseries Выбор кластерного разбиения\par по ограниченной внешней информации\par}
+\begin{center}
+{\color{accent}\fontsize{23}{27}\selectfont Выбор кластерного разбиения\par по ограниченной внешней информации\par}
 \vspace{0.8cm}
 А. Д. Богданов \quad О. В. Сенько\par
 \smallskip
 {\color{muted}МГУ имени М. В. Ломоносова}\par
 \vspace{0.8cm}
-{\color{accent}\bfseries Цель исследования}\par\smallskip
+\end{center}
+\begin{block}{Цель исследования}
 Выяснить, когда геометрия данных помогает выбрать разбиение\par
 по небольшому числу известных меток и где возникает потеря качества.
+\end{block}
 \note{В работе уже есть готовые варианты кластеризации. Требуется выбрать один из них, зная классы только небольшой части объектов. Я исследую, помогает ли подключение внутреннего геометрического индекса и как объяснить ошибки такого выбора.}
 \end{frame}
 
@@ -261,7 +268,6 @@ row,best_all,best_allowed,selected,excluded,inside\\
 \node[warm,align=center,text width=3.5cm,font=\small] at (9.45,-3.5) {Потеря при выборе\\по silhouette};
 \end{tikzpicture}
 \par\medskip\raggedright
-\textbf{Dry Bean: 94\% потери возникает на последнем шаге.}\\
 Хорошие кандидаты проходят допуск, но silhouette предпочитает другие.
 \source{20 меток, 20 раскрытий. ARI вычислен по скрытым меткам после выбора. Над стрелками --- средняя потеря.}
 \note{Первый столбец показывает лучшее проверочное качество среди всех шести разбиений. Второй показывает лучшее из оставшихся после допуска, третий --- качество выбранного по silhouette. Синие стрелки измеряют потерю при отборе по известным меткам, оранжевые --- при окончательном выборе. На Digits качество снижается с 0,5773 до 0,5736 при отборе и дальше сохраняется. На Dry Bean после допуска остаётся качество 0,6357, но silhouette выбирает в среднем 0,5531. Поэтому примерно 94 процента потери связано с последним этапом. На AG News качество снижается на обоих этапах. Все значения усреднены по двадцати раскрытиям, проверочные метки доступны только при последующем анализе.}
